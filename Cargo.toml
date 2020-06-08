@@ -1,0 +1,9 @@
+[package]
+name = "tinyrs"
+version = "0.1.0"
+authors = ["Mariell Hoversholm <proximyst@proximyst.com>"]
+edition = "2018"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+thiserror = "1"
