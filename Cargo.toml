@@ -3,6 +3,8 @@ name = "tinyrs"
 version = "0.2.0"
 authors = ["Mariell Hoversholm <proximyst@proximyst.com>"]
 edition = "2018"
+description = "Parse Tiny format mappings in Rust."
+license = "MIT"
 
 [dependencies]
 nom = "5"
