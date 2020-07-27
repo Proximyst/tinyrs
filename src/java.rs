@@ -1,11 +1,11 @@
+use crate::identifier;
 use nom::{
     branch::alt,
-    bytes::complete::take_till1,
     character::complete::char,
     combinator::{map, value},
     error::{context, ParseError},
     multi::many1_count,
-    sequence::{pair, preceded},
+    sequence::{pair, preceded, terminated},
     IResult,
 };
 use serde::{Deserialize, Serialize};
@@ -48,7 +48,7 @@ fn class<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, JavaTyp
     context(
         "class",
         map(
-            preceded(char('L'), take_till1(|c| c == ';')),
+            preceded(char('L'), terminated(identifier, char(';'))),
             |name: &str| JavaType::Class(name.into()),
         ),
     )(input)
@@ -64,6 +64,8 @@ fn array<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, JavaTyp
     )(input)
 }
 
-pub fn parse_java_type<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, JavaType, E> {
+pub fn parse_java_type<'a, E: ParseError<&'a str>>(
+    input: &'a str,
+) -> IResult<&'a str, JavaType, E> {
     alt((dataless, class, array))(input)
 }
